@@ -27,39 +27,30 @@ for FILE in `egrep -v '(^#|^$)' ../$DEVICE/device-proprietary-files.txt`; do
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
-  if [ "$SRC" = "adb" ]; then
-    adb pull /system/$FILE $BASE/$FILE
-  else
-    cp $SRC/system/$FILE $BASE/$FILE
-  fi
+  # My way of pulling blobs without the device
+  cp ~/android/desire-dump/$FILE $BASE/$FILE
 done
 
-for FILE in `egrep -v '(^#|^$)' ../m7-common/proprietary-files.txt`; do
+for FILE in `egrep -v '(^#|^$)' ../zara-common/proprietary-files.txt`; do
   echo "Extracting /system/$FILE ..."
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
-  if [ "$SRC" = "adb" ]; then
-    adb pull /system/$FILE $BASE/$FILE
-  else
-    cp $SRC/system/$FILE $BASE/$FILE
-  fi
+  # My way of pulling blobs without the device
+  cp ~/android/desire-dump/$FILE $BASE/$FILE
 done
 
-BASE=../../../vendor/$VENDOR/m7-common/proprietary
+BASE=../../../vendor/$VENDOR/zara-common/proprietary
 rm -rf $BASE/*
-for FILE in `egrep -v '(^#|^$)' ../m7-common/common-proprietary-files.txt`; do
+for FILE in `egrep -v '(^#|^$)' ../zara-common/common-proprietary-files.txt`; do
   echo "Extracting /system/$FILE ..."
   DIR=`dirname $FILE`
   if [ ! -d $BASE/$DIR ]; then
     mkdir -p $BASE/$DIR
   fi
-  if [ "$SRC" = "adb" ]; then
-    adb pull /system/$FILE $BASE/$FILE
-  else
-    cp $SRC/system/$FILE $BASE/$FILE
-  fi
+  # My way of pulling blobs without the device
+  cp ~/android/desire-dump/$FILE $BASE/$FILE
 done
 
-./../m7-common/setup-makefiles.sh
+./../zara-common/setup-makefiles.sh

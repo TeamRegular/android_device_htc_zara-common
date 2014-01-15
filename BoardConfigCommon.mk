@@ -27,15 +27,15 @@
 # inherit from common msm8960
 -include device/htc/msm8960-common/BoardConfigCommon.mk
 
-TARGET_SPECIFIC_HEADER_PATH := device/htc/m7-common/include
+TARGET_SPECIFIC_HEADER_PATH := device/htc/zara-common /include
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80600000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom user_debug=31
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01400000
-TARGET_KERNEL_CONFIG := cyanogenmod_m7_defconfig
-TARGET_KERNEL_SOURCE := kernel/htc/m7
+TARGET_KERNEL_CONFIG := zara_defconfig
+TARGET_KERNEL_SOURCE := kernel/htc/zara
 
 # Flags
 COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
@@ -45,13 +45,13 @@ BOARD_USES_FLUENCE_INCALL := true  # use DMIC in call only
 BOARD_USES_SEPERATED_AUDIO_INPUT := true  # use distinct voice recog/camcorder use cases
 BOARD_USES_SEPERATED_VOICE_SPEAKER := true  # use distinct voice speaker use case
 BOARD_USES_SEPERATED_VOIP := true  # use distinct VOIP use cases
-BOARD_AUDIO_AMPLIFIER := device/htc/m7-common/libaudioamp
+BOARD_AUDIO_AMPLIFIER := device/htc/zara-common /libaudioamp
 BOARD_HAVE_HTC_CSDCLIENT := true
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
-BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/m7-common/bluetooth
-BOARD_BLUEDROID_VENDOR_CONF := device/htc/m7-common/bluetooth/libbt_vndcfg.txt
+BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/zara-common /bluetooth
+BOARD_BLUEDROID_VENDOR_CONF := device/htc/zara-common /bluetooth/libbt_vndcfg.txt
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 
 # Camera
@@ -91,11 +91,13 @@ BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1946156032
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 27917287424
 BOARD_FLASH_BLOCK_SIZE := 131072
 
+HAVE_SELINUX = false
+
 # Selinux
 ifeq ($(HAVE_SELINUX),true)
 
 BOARD_SEPOLICY_DIRS := \
-	device/htc/m7-common/selinux
+	device/htc/zara-common /selinux
 
 BOARD_SEPOLICY_UNION := \
 	file_contexts \
@@ -131,15 +133,11 @@ BOARD_SEPOLICY_UNION := \
 endif
 
 # Custom Recovery
-ifneq ($(filter m7att m7tmo m7ul,$(TARGET_DEVICE)),)
-TARGET_RECOVERY_FSTAB := device/htc/m7-common/recovery/recovery.fstab.gsm
-else
-TARGET_RECOVERY_FSTAB := device/htc/m7-common/recovery/recovery.fstab.cdma
-endif
-BOARD_CUSTOM_GRAPHICS := ../../../device/htc/m7-common/recovery/graphics.c
+TARGET_RECOVERY_FSTAB := device/htc/zara-common/recovery/recovery.fstab
+BOARD_CUSTOM_GRAPHICS := ../../../device/htc/zara-common/recovery/graphics.c
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_23x41.h\"
 BOARD_HAS_NO_SELECT_BUTTON := true
 TARGET_USERIMAGES_USE_EXT4 := true
 
 # inherit from the proprietary version
--include vendor/htc/m7-common/BoardConfigVendor.mk
+-include vendor/htc/zara-common/BoardConfigVendor.mk

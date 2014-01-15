@@ -1,9 +1,5 @@
 # Device-specific proprietary files sharing a common name
 
-# Executables
-bin/efsks
-bin/qcks
-
 # Radio
 lib/libril-qc-qmi-1.so
 lib/libril-qcril-hook-oem.so

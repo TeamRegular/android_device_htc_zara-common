@@ -20,10 +20,6 @@ $(call inherit-product, device/htc/msm8960-common/msm8960.mk)
 # overlays
 DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
-# Boot animation
-TARGET_SCREEN_HEIGHT := 1920
-TARGET_SCREEN_WIDTH := 1080
-
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
@@ -36,7 +32,7 @@ PRODUCT_PACKAGES += \
 
 # Post boot service
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/init.post_boot.sh:system/etc/init.post_boot.sh
+    $(LOCAL_PATH)/configs/init.qcom.post_boot.sh:system/etc/init.qcom.post_boot.sh
 
 # Recovery
 PRODUCT_PACKAGES += \
@@ -61,7 +57,7 @@ PRODUCT_PACKAGES += \
 # Wifi config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/calibration:/system/etc/calibration \
-    $(LOCAL_PATH)/configs/calibration_EMEA:/system/etc/calibration_EMEA
+    $(LOCAL_PATH)/configs/calibration.gpio4:/system/etc/calibration.gpio4
 
 # Audio config
 PRODUCT_COPY_FILES += \
@@ -84,8 +80,7 @@ PRODUCT_COPY_FILES += \
 
 # Keylayouts and Keychars
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/keylayout/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
-    $(LOCAL_PATH)/keylayout/keypad_8960.kl:system/usr/keylayout/keypad_8960.kl \
+    $(LOCAL_PATH)/keylayout/sr_touchscreen.kl:system/usr/keylayout/sr_touchscreen.kl \
     $(LOCAL_PATH)/keylayout/projector-Keypad.kl:system/usr/keylayout/projector-Keypad.kl \
     $(LOCAL_PATH)/keylayout/synaptics-rmi-touchscreen.kl:system/usr/keylayout/synaptics-rmi-touchscreen.kl \
 
@@ -125,8 +120,8 @@ PRODUCT_PACKAGES += \
     Torch
 
 # Prepatch to fix BT/WiFi bus lockups
-PRODUCT_COPY_FILES += \
-    device/htc/m7-common/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
+#PRODUCT_COPY_FILES += \
+#    device/htc/zara-common/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -137,9 +132,9 @@ PRODUCT_COPY_FILES += \
 
 # NFCEE access control
 ifeq ($(TARGET_BUILD_VARIANT),user)
-    NFCEE_ACCESS_PATH := device/htc/m7-common/configs/nfcee_access.xml
+    NFCEE_ACCESS_PATH := device/htc/zara-common/configs/nfcee_access.xml
 else
-    NFCEE_ACCESS_PATH := device/htc/m7-common/configs/nfcee_access_debug.xml
+    NFCEE_ACCESS_PATH := device/htc/zara-common/configs/nfcee_access_debug.xml
 endif
 PRODUCT_COPY_FILES += \
     $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
@@ -153,7 +148,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     debug.nfc.fw_boot_download=false \
     debug.nfc.se=true \
     ro.nfc.port=I2C \
-    ro.sf.lcd_density=480 \
+    ro.sf.lcd_density=240 \
     persist.timed.enable=true \
     persist.gps.qmienabled=true \
     ro.baseband.arch=mdm \
@@ -164,14 +159,11 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
 # Device uses high-density artwork where available
-PRODUCT_AAPT_CONFIG := normal hdpi xhdpi xxhdpi
-PRODUCT_AAPT_PREF_CONFIG := xhdpi xxhdpi
+PRODUCT_AAPT_CONFIG := normal hdpi
+PRODUCT_AAPT_PREF_CONFIG := hdpi
 
 # call dalvik heap config
-$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
-
-# call hwui memory config
-$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+$(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
 
 # call the proprietary setup
-$(call inherit-product-if-exists, vendor/htc/m7-common/m7-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/htc/zara-common/zara-common-vendor.mk)
